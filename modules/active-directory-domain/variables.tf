@@ -49,5 +49,4 @@ locals {
   shutdown_command     = "shutdown -r -t 10"
   exit_code_hack       = "exit 0"
   powershell_command   = "${local.import_command}; ${local.password_command}; ${local.install_ad_command}; ${local.configure_ad_command}; ${local.shutdown_command}; ${local.exit_code_hack}"
-
 }
