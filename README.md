@@ -1,2 +1,2 @@
-# azure-ad-connect-inspection
+# azure-ad-connect-inspection (WIP)
 deploy azure ad connect environment on azure by terraform
