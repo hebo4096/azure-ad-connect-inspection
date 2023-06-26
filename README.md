@@ -1,7 +1,7 @@
 # azure-ad-connect-inspection
 deploy azure ad connect environment on azure by terraform.
 
-- how to deploy
+## how to deploy
 ```
 # initialization for terraform code
 terraform init
@@ -12,8 +12,7 @@ terraform plan
 # set your deploy.
 terraform apply
 ```
-
-- configurations
+## configurations
 1. set up your custom domain on azure ad connect.
 
 2. set your parameters when you apply.
