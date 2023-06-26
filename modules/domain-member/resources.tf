@@ -3,7 +3,7 @@ resource "azurerm_public_ip" "member_static" {
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
-  domain_name_label = "${var.prefix}-member"
+  domain_name_label   = "${var.prefix}-member"
 }
 
 resource "azurerm_network_interface" "member_nic" {
@@ -20,7 +20,7 @@ resource "azurerm_network_interface" "member_nic" {
 
 # associations for network security group and domain member nic
 resource "azurerm_network_interface_security_group_association" "domain_member_nic_association" {
-  network_interface_id = azurerm_network_interface.member_nic.id
+  network_interface_id      = azurerm_network_interface.member_nic.id
   network_security_group_id = var.rdp_inbound_nsg_id
 }
 

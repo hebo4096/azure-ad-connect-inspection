@@ -2,26 +2,25 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "rg" {
   location = var.location
   name     = "${var.prefix}-rg"
 }
-
 
 module "network" {
   source = "./modules/network"
 
   location            = var.location
   prefix              = var.prefix
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.rg.name
   your_home_ip        = var.your_home_ip
 }
 
 module "active_directory_domain" {
   source = "./modules/active-directory-domain"
 
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
 
   active_directory_domain_name  = var.custom_domain
   active_directory_netbios_name = split(".", var.custom_domain)[0]
@@ -35,8 +34,8 @@ module "active_directory_domain" {
 module "active_directory_member" {
   source = "./modules/domain-member"
 
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
   prefix              = var.prefix
 
   active_directory_domain_name = var.custom_domain
@@ -51,8 +50,8 @@ module "active_directory_member" {
 module "azure_ad_connect" {
   source = "./modules/azure-ad-connect"
 
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
   prefix              = var.prefix
 
   active_directory_domain_name       = var.custom_domain
