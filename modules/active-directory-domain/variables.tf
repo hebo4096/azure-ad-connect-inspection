@@ -37,10 +37,6 @@ variable "rdp_inbound_nsg_id" {
 locals {
   virtual_machine_name = join("-", [var.prefix, "dc"])
   virtual_machine_fqdn = join(".", [local.virtual_machine_name, var.active_directory_domain_name])
-  auto_logon_data      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
-  first_logon_data     = file("${path.module}/files/FirstLogonCommands.xml")
-  custom_data_params   = "Param($RemoteHostName = \"${local.virtual_machine_fqdn}\", $ComputerName = \"${local.virtual_machine_name}\")"
-  custom_data          = base64encode(join(" ", [local.custom_data_params, file("${path.module}/files/winrm.ps1")]))
 
   import_command       = "Import-Module ADDSDeployment"
   password_command     = "$password = ConvertTo-SecureString ${var.admin_password} -AsPlainText -Force"

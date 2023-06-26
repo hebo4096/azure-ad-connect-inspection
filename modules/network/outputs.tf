@@ -3,7 +3,7 @@ output "domain_controllers_subnet_id" {
 }
 
 output "domain_members_subnet_id" {
-  value = azurerm_subnet.domain-members.id
+  value = azurerm_subnet.domain_members.id
 }
 
 output "rdp_inbound_rule_nsg_id" {

@@ -6,6 +6,9 @@ variable "location" {
   description = "The Azure Region in which all resources in this example should be created."
 }
 
+variable "upn_suffix_for_aad_synchronization" {
+  description = "custom domain set up on Azure AD. This will be alternative upn suffix on Active Directory."
+}
 variable "resource_group_name" {
   description = "The name of the resource group"
 }
@@ -41,5 +44,6 @@ variable "rdp_inbound_nsg_id" {
 locals {
   virtual_machine_name = join("-", [var.prefix, "aadc"])
   wait_for_domain_command = "while (!(Test-Connection -TargetName ${var.active_directory_domain_name} -Count 1 -Quiet) -and ($retryCount++ -le 360)) { Start-Sleep 10 }"
-  aadc_install_command = "Add-WindowsFeature RSAT-AD-Tools"
+  aadc_install_command = "msiexec.exe /i https://download.microsoft.com/download/B/0/0/B00291D0-5A83-4DE7-86F5-980BC00DE05A/AzureADConnect.msi /qn /passive"
+  install_rsat_command = "Install-WindowsFeature RSAT-AD-Tools"
 }

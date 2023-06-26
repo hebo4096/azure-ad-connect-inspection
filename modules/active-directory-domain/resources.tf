@@ -7,14 +7,14 @@ resource "azurerm_public_ip" "static" {
 }
 
 resource "azurerm_network_interface" "dc_nic" {
-  name                = join("-", [var.prefix, "dc-primary"])
+  name                = "${var.prefix}-dc-primary"
   location            = var.location
   resource_group_name = var.resource_group_name
   ip_configuration {
-    name                          = "primary"
+    name                          = "dc-ip-configuration"
+    subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = "10.0.1.4"
-    subnet_id                     = var.subnet_id
     public_ip_address_id          = azurerm_public_ip.static.id
   }
 }
@@ -25,14 +25,13 @@ resource "azurerm_network_interface_security_group_association" "domain_member_n
   network_security_group_id = var.rdp_inbound_nsg_id
 }
 
-resource "azurerm_windows_virtual_machine" "domain-controller" {
+resource "azurerm_windows_virtual_machine" "domain_controller" {
   name                = local.virtual_machine_name
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = "Standard_F2"
   admin_username      = var.admin_username
   admin_password      = var.admin_password
-  custom_data         = local.custom_data
 
   network_interface_ids = [
     azurerm_network_interface.dc_nic.id,
@@ -46,24 +45,14 @@ resource "azurerm_windows_virtual_machine" "domain-controller" {
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    sku       = "2019-Datacenter"
     version   = "latest"
-  }
-
-  additional_unattend_content {
-    content = local.auto_logon_data
-    setting = "AutoLogon"
-  }
-
-  additional_unattend_content {
-    content = local.first_logon_data
-    setting = "FirstLogonCommands"
   }
 }
 
-resource "azurerm_virtual_machine_extension" "create-ad-forest" {
+resource "azurerm_virtual_machine_extension" "create_ad_forest" {
   name                 = "create-active-directory-forest"
-  virtual_machine_id   = azurerm_windows_virtual_machine.domain-controller.id
+  virtual_machine_id   = azurerm_windows_virtual_machine.domain_controller.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
