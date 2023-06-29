@@ -25,7 +25,7 @@ terraform apply
         - custom domain set on your Azure AD environment.
     - location
         - region to set this environment.
-    - prefix
+    - prefix (max: 8 character)
         - resource names will be named with this value in head.
         - ex. if you set bohebohe as prefix, your resource group name will be "bohebohe-rg".
     - your_home_ip

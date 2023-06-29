@@ -1,5 +1,5 @@
 variable "prefix" {
-  description = "The prefix which should be used for all resources in this example"
+  description = "The prefix which should be used for all resources in this example (note: max character is 8)"
 }
 
 variable "location" {
