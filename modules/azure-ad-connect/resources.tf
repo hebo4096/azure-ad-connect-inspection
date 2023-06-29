@@ -65,7 +65,7 @@ SETTINGS
 }
 
 resource "azurerm_virtual_machine_extension" "join_domain" {
-  name                 = "add-${azurerm_windows_virtual_machine.aadc.name}-to-ad"
+  name                 = "JoinVMToDomain"
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
