@@ -15,7 +15,7 @@ variable "admin_password" {
 }
 
 variable "your_home_ip" {
-  description = "IP for nsg inbound rule."
+  description = "IP used for RDP inbound rule."
 }
 
 variable "custom_domain" {
