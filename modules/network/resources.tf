@@ -6,7 +6,7 @@ resource "azurerm_virtual_network" "vnet" {
   dns_servers         = ["10.0.1.4", "8.8.8.8"]
 }
 
-resource "azurerm_subnet" "domain-controllers" {
+resource "azurerm_subnet" "domain_controllers" {
   name                 = "domain-controllers"
   address_prefixes     = ["10.0.1.0/24"]
   resource_group_name  = var.resource_group_name
@@ -32,8 +32,8 @@ resource "azurerm_network_security_group" "nsg" {
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
-    source_port_range          = "3389"
-    destination_port_range     = "*"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
     source_address_prefix      = var.your_home_ip
     destination_address_prefix = "*"
   }
