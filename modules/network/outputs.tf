@@ -7,5 +7,5 @@ output "domain_members_subnet_id" {
 }
 
 output "rdp_inbound_rule_nsg_id" {
-  value = azurerm_network_security_group.nsg.id
+  value = azurerm_network_security_group.this.id
 }
